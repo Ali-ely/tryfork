@@ -85,7 +85,7 @@ void testGraph()
 
     // Test 3: Load real dataset
     cout << "\n3. Loading real dataset from file..." << endl;
-    graph.readDataset("../data/city_connections_dataset.txt");
+    graph.readDataset("../../../../data/city_connections_dataset.txt");
 
     cout << "\nLoaded graph structure:" << endl;
     graph.display();
