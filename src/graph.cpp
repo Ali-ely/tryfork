@@ -156,15 +156,15 @@ void Graph::readDataset(const char *filename)
         }
 
         std::stringstream ss(line);
-        std::string city1, city2;
-        int distance;
+        std::string vertex1, vertex2;
+        int weight;
 
-        ss >> city1 >> city2 >> distance;
+        ss >> vertex1 >> vertex2 >> weight;
 
-        if (city1.empty() || city2.empty() || ss.fail())
+        if (vertex1.empty() || vertex2.empty() || ss.fail())
             continue;
 
-        addEdge(city1.c_str(), city2.c_str(), distance);
+        addEdge(vertex1.c_str(), vertex2.c_str(), weight);
     }
 
     file.close();
