@@ -1,0 +1,170 @@
+City1	City2	Distance (km)
+New York	Chicago	663
+New York	Houston	385
+New York	San Diego	964
+New York	Dallas	291
+New York	San Jose	1134
+New York	Indianapolis	1880
+New York	Seattle	1750
+New York	Denver	965
+Los Angeles	Chicago	1663
+Los Angeles	Phoenix	298
+Los Angeles	San Diego	188
+Los Angeles	Denver	566
+Chicago	San Jose	827
+Chicago	Austin	646
+Chicago	Columbus	1400
+Chicago	Charlotte	1593
+Chicago	San Francisco	1046
+Houston	San Diego	165
+Houston	Austin	1970
+Houston	Denver	605
+Phoenix	Jacksonville	1110
+Phoenix	Fort Worth	196
+Phoenix	Charlotte	427
+Phoenix	Seattle	881
+Philadelphia	San Antonio	1233
+Philadelphia	Dallas	1576
+Philadelphia	San Jose	1912
+Philadelphia	Jacksonville	1412
+Philadelphia	Columbus	423
+Philadelphia	Seattle	1125
+San Antonio	San Diego	1380
+San Antonio	Dallas	1408
+San Antonio	Austin	865
+San Antonio	San Francisco	763
+San Antonio	Seattle	843
+San Diego	San Jose	1898
+San Diego	Jacksonville	1598
+San Diego	Columbus	1657
+San Diego	San Francisco	1451
+San Diego	Denver	1886
+Dallas	Washington	231
+San Jose	Fort Worth	551
+San Jose	Columbus	1549
+San Jose	San Francisco	1954
+San Jose	Indianapolis	776
+San Jose	Seattle	587
+San Jose	Denver	1094
+San Jose	Washington	370
+Austin	Charlotte	1068
+Austin	Indianapolis	298
+Jacksonville	Columbus	1438
+Jacksonville	San Francisco	924
+Jacksonville	Denver	492
+Jacksonville	Washington	1018
+Fort Worth	Columbus	475
+Fort Worth	Charlotte	611
+Fort Worth	Indianapolis	1754
+Fort Worth	Washington	1207
+Columbus	Denver	1094
+Charlotte	Seattle	104
+Charlotte	Washington	1705
+San Francisco	Seattle	1526
+Indianapolis	Washington	707
+Seattle	Denver	219
+New York	Chicago	1296
+New York	Houston	1982
+New York	Philadelphia	1140
+New York	San Antonio	480
+New York	San Diego	239
+New York	San Jose	345
+New York	Jacksonville	1285
+New York	Fort Worth	1368
+New York	Columbus	1446
+New York	Charlotte	1170
+New York	San Francisco	634
+New York	Indianapolis	1566
+New York	Seattle	643
+New York	Denver	1475
+Los Angeles	Chicago	1639
+Los Angeles	Phoenix	1372
+Los Angeles	San Diego	536
+Los Angeles	Dallas	371
+Los Angeles	Fort Worth	423
+Los Angeles	Columbus	1212
+Los Angeles	Denver	1773
+Los Angeles	Washington	1458
+Chicago	Houston	1898
+Chicago	Phoenix	336
+Chicago	San Diego	677
+Chicago	Austin	1398
+Chicago	Fort Worth	614
+Chicago	San Francisco	967
+Chicago	Seattle	783
+Houston	Phoenix	1618
+Houston	Philadelphia	1545
+Houston	San Antonio	119
+Houston	San Diego	1908
+Houston	San Jose	173
+Houston	Jacksonville	403
+Houston	Fort Worth	185
+Houston	Columbus	1941
+Houston	Indianapolis	832
+Houston	Seattle	611
+Houston	Washington	1246
+Phoenix	San Antonio	1371
+Phoenix	San Jose	432
+Phoenix	Columbus	1608
+Phoenix	Indianapolis	1471
+Phoenix	Washington	1712
+Philadelphia	San Diego	179
+Philadelphia	San Jose	1772
+Philadelphia	Jacksonville	1780
+Philadelphia	Columbus	148
+Philadelphia	San Francisco	670
+Philadelphia	Denver	1413
+Philadelphia	Washington	1491
+San Antonio	Dallas	156
+San Antonio	San Jose	634
+San Antonio	Austin	643
+San Antonio	Jacksonville	1321
+San Antonio	Fort Worth	1592
+San Antonio	Charlotte	1147
+San Antonio	San Francisco	1942
+San Antonio	Indianapolis	621
+San Antonio	Seattle	993
+San Antonio	Denver	1995
+San Diego	Jacksonville	983
+San Diego	Fort Worth	1460
+San Diego	Indianapolis	1943
+San Diego	Seattle	733
+San Diego	Washington	1527
+Dallas	San Jose	360
+Dallas	Austin	1461
+Dallas	San Francisco	1222
+Dallas	Seattle	530
+Dallas	Denver	1287
+San Jose	Austin	1004
+San Jose	Jacksonville	537
+San Jose	Fort Worth	1725
+San Jose	San Francisco	273
+San Jose	Indianapolis	1459
+San Jose	Denver	1776
+Austin	Jacksonville	735
+Austin	Fort Worth	507
+Austin	Columbus	194
+Austin	Charlotte	1073
+Austin	Seattle	1914
+Austin	Washington	1526
+Jacksonville	Fort Worth	918
+Jacksonville	Columbus	1443
+Jacksonville	Washington	1746
+Fort Worth	Charlotte	202
+Fort Worth	San Francisco	1978
+Fort Worth	Seattle	1741
+Fort Worth	Denver	1187
+Columbus	Charlotte	1646
+Columbus	Denver	1801
+Charlotte	San Francisco	425
+Charlotte	Seattle	630
+San Francisco	Indianapolis	1692
+San Francisco	Seattle	1383
+San Francisco	Denver	1000
+San Francisco	Washington	685
+Indianapolis	Seattle	787
+Indianapolis	Denver	1206
+Indianapolis	Washington	408
+Seattle	Denver	1521
+Seattle	Washington	538
+Denver	Washington	934

@@ -1,61 +1,71 @@
-//BY Ahmed Yamany
 #include "graph.h"
-#include <iostream> 
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
-Graph::Graph() : head(nullptr) {
+Graph::Graph() : head(nullptr)
+{
 }
 
-Graph::~Graph() {
+Graph::~Graph()
+{
     clear();
 }
 
-void Graph::clear() {
-    VertexNode* currVertex = head;
+void Graph::clear()
+{
+    VertexNode *currVertex = head;
 
     // Loop all Vertex nodes
-    while (currVertex) {
-        EdgeNode* currEdge = currVertex->adjHead;
+    while (currVertex)
+    {
+        EdgeNode *currEdge = currVertex->adjHead;
 
         // Delete all edges connected to this Vertex
-        while (currEdge) {
-            EdgeNode* nextEdge = currEdge->next; 
-            delete currEdge;  
+        while (currEdge)
+        {
+            EdgeNode *nextEdge = currEdge->next;
+            delete currEdge;
             currEdge = nextEdge;
         }
 
-        VertexNode* nextVertex = currVertex->next;
-        delete currVertex;                         
-        currVertex = nextVertex; 
+        VertexNode *nextVertex = currVertex->next;
+        delete currVertex;
+        currVertex = nextVertex;
     }
 
     head = nullptr;
 }
 
-VertexNode* Graph::findVertexNode(const char* name) const {
-    VertexNode* temp = head;
+VertexNode *Graph::findVertexNode(const char *name) const
+{
+    VertexNode *temp = head;
 
     // loop the Vertex list
-    while (temp) {
+    while (temp)
+    {
         if (strcmp(temp->name, name) == 0)
-            return temp;   
+            return temp;
         temp = temp->next;
     }
 
     return nullptr;
 }
 
-void Graph::addVertex(const char* name) {
+void Graph::addVertex(const char *name)
+{
     if (findVertexNode(name))
         return;
 
-    VertexNode* newVertex = new VertexNode(name);
+    VertexNode *newVertex = new VertexNode(name);
 
-    if (!head) {
+    if (!head)
+    {
         head = newVertex;
-    } else {
-        VertexNode* temp = head;
+    }
+    else
+    {
+        VertexNode *temp = head;
         while (temp->next)
             temp = temp->next;
 
@@ -63,20 +73,22 @@ void Graph::addVertex(const char* name) {
     }
 }
 
-void Graph::addEdge(const char* from, const char* to, int w) {
+void Graph::addEdge(const char *from, const char *to, int w)
+{
     // check both cities exist or create if they don't
     addVertex(from);
     addVertex(to);
 
-    VertexNode* fromVertex = findVertexNode(from);
-    VertexNode* toVertex = findVertexNode(to);
+    VertexNode *fromVertex = findVertexNode(from);
+    VertexNode *toVertex = findVertexNode(to);
 
-    EdgeNode* newEdge1 = new EdgeNode(to, w);
+    EdgeNode *newEdge1 = new EdgeNode(to, w);
 
     if (!fromVertex->adjHead)
         fromVertex->adjHead = newEdge1;
-    else {
-        EdgeNode* temp = fromVertex->adjHead;
+    else
+    {
+        EdgeNode *temp = fromVertex->adjHead;
         while (temp->next)
             temp = temp->next;
 
@@ -84,27 +96,30 @@ void Graph::addEdge(const char* from, const char* to, int w) {
     }
 
     // (Because this is an undirected graph)
-    EdgeNode* newEdge2 = new EdgeNode(from, w);
+    EdgeNode *newEdge2 = new EdgeNode(from, w);
 
     if (!toVertex->adjHead)
         toVertex->adjHead = newEdge2;
-    else {
-        EdgeNode* temp = toVertex->adjHead;
+    else
+    {
+        EdgeNode *temp = toVertex->adjHead;
         while (temp->next)
             temp = temp->next;
         temp->next = newEdge2;
     }
 }
 
+void Graph::display() const
+{
+    VertexNode *Vertex = head;
 
-void Graph::display() const {
-    VertexNode* Vertex = head;
-
-    while (Vertex) {
+    while (Vertex)
+    {
         std::cout << Vertex->name << " -> ";
 
-        EdgeNode* edge = Vertex->adjHead;
-        while (edge) {
+        EdgeNode *edge = Vertex->adjHead;
+        while (edge)
+        {
             std::cout << edge->to << " (" << edge->weight << ")";
 
             if (edge->next)
@@ -118,9 +133,11 @@ void Graph::display() const {
     }
 }
 
-void Graph::readDataset(const char* filename) {
+void Graph::readDataset(const char *filename)
+{
     std::ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Error: Could not open file " << filename << std::endl;
         return;
     }
@@ -128,9 +145,12 @@ void Graph::readDataset(const char* filename) {
     std::string line;
     bool firstLine = true;
 
-    while (std::getline(file, line)) {
-        if (line.empty()) continue;          // skip blank lines
-        if (firstLine) {                     // skip header line
+    while (std::getline(file, line))
+    {
+        if (line.empty())
+            continue; // skip blank lines
+        if (firstLine)
+        { // skip header line
             firstLine = false;
             continue;
         }

@@ -1,10 +1,14 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.14)
 project(PathVista)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(PathVista)
+# Add source directory
+add_subdirectory(src)
 
-add_executable(PathVista
-        PathVista/MinHeap.tpp
-        PathVista/MinHeap.h)
+# Enable testing
+enable_testing()
+
+# Add test directory
+add_subdirectory(test)
