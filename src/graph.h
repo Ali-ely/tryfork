@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <cstring>
+#include <cstdio>
 
 struct EdgeNode
 {
@@ -11,8 +12,11 @@ struct EdgeNode
 
     EdgeNode(const char *t, int w, EdgeNode *n = nullptr)
     {
-        strncpy(to, t, 63);
-        to[63] = '\0';
+        // strncpy(to, t, 63);
+        // to[63] = '\0';
+        
+        //this way is supposed to be better in copying the string safely and place \0 in the correct location
+        snprintf(to, sizeof(to), "%s", t);  // %s is called format string (copy the string argument)
         weight = w;
         next = n;
     }
@@ -27,8 +31,9 @@ struct VertexNode
 
     VertexNode(const char *n)
     {
-        strncpy(name, n, 63);
-        name[63] = '\0';
+        // strncpy(name, n, 63);
+        // name[63] = '\0';
+        snprintf (name, sizeof(name), "%s", n);
         adjHead = nullptr;
         next = nullptr;
     }
