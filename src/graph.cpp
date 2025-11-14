@@ -170,3 +170,31 @@ void Graph::readDataset(const char *filename)
     file.close();
     std::cout << "Dataset successfully readed from: " << filename << std::endl;
 }
+
+int Graph::getNumOfNodes() const
+{
+    int count = 0;
+    VertexNode *temp = head;
+    while (temp)
+    {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int Graph::getNeighborCount(const char *vertexName) const
+{
+    VertexNode *vertex = findVertexNode(vertexName);
+    if (!vertex)
+        return 0;
+
+    int count = 0;
+    EdgeNode *curr = vertex->adjHead;
+    while (curr)
+    {
+        count++;
+        curr = curr->next;
+    }
+    return count;
+}

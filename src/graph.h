@@ -51,6 +51,8 @@ public:
     void addEdge(const char *from, const char *to, int w); // Add connection between two vertices
     void display() const;
     void readDataset(const char *filename);
+    int getNumOfNodes() const;
+    int getNeighborCount(const char *vertexName) const;
 };
 
 #endif
