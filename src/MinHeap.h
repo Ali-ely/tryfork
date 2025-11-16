@@ -9,8 +9,9 @@ class MinHeap
 {
 private:
     T *arr;
+    T minimum;
     int capacity;
-    int size;
+    int N;
 
     static int parent(int i);
 
@@ -19,11 +20,11 @@ private:
     static int right(int i);
     int last() const;
 
-    void heapifyUp(int i);
-    void heapifyDown(int i);
+    void upheap(int i);
+    void downheap(int i);
 
 public:
-    explicit MinHeap(int cap);
+    explicit MinHeap(int cap, T min);
     ~MinHeap();
 
     bool isEmpty() const;

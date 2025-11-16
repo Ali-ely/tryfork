@@ -1,19 +1,19 @@
 #include "MinHeap.h"
 
 template <typename T>
-int MinHeap<T>::parent(int i) { return (i - 1) / 2; }
+int MinHeap<T>::parent(int i) { return (i) / 2; }
 
 template <typename T>
-int MinHeap<T>::left(int i) { return 2 * i + 1; }
+int MinHeap<T>::left(int i) { return 2 * i; }
 
 template <typename T>
-int MinHeap<T>::right(int i) { return 2 * i + 2; }
+int MinHeap<T>::right(int i) { return 2 * i + 1; }
 
 template <typename T>
-int MinHeap<T>::last() const { return size - 1; }
+int MinHeap<T>::last() const { return N; }
 
 template <typename T>
-void MinHeap<T>::heapifyUp(int i)
+void MinHeap<T>::upheap(int i)
 {
     while (i != 0 && arr[parent(i)] > arr[i])
     {
@@ -23,30 +23,32 @@ void MinHeap<T>::heapifyUp(int i)
 }
 
 template <typename T>
-void MinHeap<T>::heapifyDown(int i)
+void MinHeap<T>::downheap(int i)
 {
     int smallest = i;
     int l = left(i);
     int r = right(i);
 
-    if (l < size && arr[l] < arr[smallest])
+    if (l < N && arr[l] < arr[smallest])
         smallest = l;
-    if (r < size && arr[r] < arr[smallest])
+    if (r < N && arr[r] < arr[smallest])
         smallest = r;
 
     if (smallest != i)
     {
         swap(arr[i], arr[smallest]);
-        heapifyDown(smallest);
+        downheap(smallest);
     }
 }
 
 template <typename T>
-MinHeap<T>::MinHeap(int cap)
+MinHeap<T>::MinHeap(int cap, T min)
 {
     capacity = cap;
-    size = 0;
-    arr = new T[cap];
+    N = 0;
+    minimum = min;
+    arr = new T[capacity+1];
+    arr[0] = minimum;
 }
 
 template <typename T>
@@ -56,19 +58,18 @@ MinHeap<T>::~MinHeap()
 }
 
 template <typename T>
-bool MinHeap<T>::isEmpty() const { return size == 0; }
+bool MinHeap<T>::isEmpty() const { return N == 0; }
 
 template <typename T>
-bool MinHeap<T>::isFull() const { return size == capacity; }
+bool MinHeap<T>::isFull() const { return N == capacity; }
 
 template <typename T>
 void MinHeap<T>::insert(const T &key)
 {
     if (isFull())
         return;
-    arr[size] = key;
-    size++;
-    heapifyUp(last());
+    arr[++N] = key;
+    upheap(last());
 }
 
 template <typename T>
@@ -76,7 +77,7 @@ T MinHeap<T>::getMin()
 {
     if (isEmpty())
         return T();
-    return arr[0];
+    return arr[1];
 }
 
 template <typename T>
@@ -84,22 +85,22 @@ T MinHeap<T>::extractMin()
 {
     if (isEmpty())
         return T();
-    if (size == 1)
+    if (N == 1)
     {
-        size--;
-        return arr[0];
+        N--;
+        return arr[1];
     }
-    T root = arr[0];
-    arr[0] = arr[last()];
-    size--;
-    heapifyDown(0);
+    T root = move(arr[1]);
+    arr[1] = move(arr[last()]);
+    N--;
+    downheap(1);
     return root;
 }
 
 template <typename T>
 void MinHeap<T>::printHeap()
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < N; i++)
         cout << arr[i] << " ";
     cout << endl;
 }

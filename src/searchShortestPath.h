@@ -18,17 +18,4 @@ struct heapNode
 
 void shortestPath(Graph& graph, const char* start, const char* destination);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

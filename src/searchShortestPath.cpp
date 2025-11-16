@@ -10,6 +10,5 @@ void shortestPath(Graph& graph, const char* start, const char* destination)
     bool* visited = new bool [numNodes];
     char (*previous) [64] = new char [numNodes][64];
 
-    
 }
 
