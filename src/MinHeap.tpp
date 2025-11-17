@@ -15,11 +15,16 @@ int MinHeap<T>::last() const { return N; }
 template <typename T>
 void MinHeap<T>::upheap(int i)
 {
-    while (i != 0 && arr[parent(i)] > arr[i])
+
+    T temp = std::move(arr[i]);
+
+    while (i > 0 && arr[parent(i)] > temp)
     {
-        swap(arr[i], arr[parent(i)]);
+        arr[i] = std::move(arr[parent(i)]);
         i = parent(i);
     }
+
+    arr[i] = std::move(temp);
 }
 
 template <typename T>
