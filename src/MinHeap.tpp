@@ -49,6 +49,18 @@ void MinHeap<T>::downheap(int i)
 }
 
 template <typename T>
+void MinHeap<T>::resize()
+{
+    int newCapacity = capacity * 2;
+    T* newArr = new T[newCapacity + 1];
+    for (int i = 0; i <= N; i++)
+        newArr[i] = std::move(arr[i]);
+    delete[] arr;
+    arr = newArr;
+    capacity = newCapacity;
+}
+
+template <typename T>
 MinHeap<T>::MinHeap(int cap, T min)
 {
     capacity = cap;
@@ -73,8 +85,7 @@ bool MinHeap<T>::isFull() const { return N == capacity; }
 template <typename T>
 void MinHeap<T>::insert(const T &key)
 {
-    if (isFull())
-        return;
+    if (isFull()) resize();
     arr[++N] = key;
     upheap(last());
 }

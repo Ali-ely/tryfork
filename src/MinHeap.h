@@ -23,6 +23,8 @@ private:
     void upheap(int i);
     void downheap(int i);
 
+	void resize();
+
 public:
     explicit MinHeap(int cap, T min);
     ~MinHeap();
