@@ -35,6 +35,7 @@ public:
     void insert(const T &key);
     T getMin();
     T extractMin();
+    void decreaseKey(int, const T&);
     void printHeap();
 };
 

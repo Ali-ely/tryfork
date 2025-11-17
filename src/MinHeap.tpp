@@ -99,6 +99,20 @@ T MinHeap<T>::getMin()
 }
 
 template <typename T>
+void MinHeap<T>::decreaseKey(int i, const T& newValue)
+{
+    // We can only decrease a key, not increase it
+    if (newValue > arr[i])
+        return;
+
+    arr[i] = newValue;
+
+    // Restore heap property by upheaping
+    upheap(i);
+}
+
+
+template <typename T>
 T MinHeap<T>::extractMin()
 {
     if (isEmpty())
