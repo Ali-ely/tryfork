@@ -30,20 +30,22 @@ void MinHeap<T>::upheap(int i)
 template <typename T>
 void MinHeap<T>::downheap(int i)
 {
-    int smallest = i;
-    int l = left(i);
-    int r = right(i);
+    T temp = std::move(arr[i]);
+    int j = left(i);
 
-    if (l < N && arr[l] < arr[smallest])
-        smallest = l;
-    if (r < N && arr[r] < arr[smallest])
-        smallest = r;
-
-    if (smallest != i)
+    while (j <= N)
     {
-        swap(arr[i], arr[smallest]);
-        downheap(smallest);
+        int r = j+1;
+
+        if (r <= N && arr[j] > arr[r])   j = r;
+
+        if (temp <= arr[j]) break;
+
+        arr[i] = std::move(arr[j]);
+        i = j;
+        j = left(i);
     }
+    arr[i] = std::move(temp);
 }
 
 template <typename T>
