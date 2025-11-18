@@ -46,6 +46,7 @@ public:
     Graph();
     ~Graph();
 
+    VertexNode* getHead() const { return head; }
     void clear();                                          // Delete all vertices and edges
     void addVertex(const char *name);                      // Add a new vertex if it doesn’t exist
     void addEdge(const char *from, const char *to, int w); // Add connection between two vertices

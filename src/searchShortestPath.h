@@ -3,20 +3,20 @@
 
 #include "MinHeap.h"
 #include "graph.h"
-struct heapNode
-{
-    char cityName[64];
-    int distance;
+// struct heapNode
+// {
+//     char cityName[64];
+//     int distance;
 
-    bool operator<(const heapNode& other) const {
-        return distance < other.distance;
-    }
-    bool operator>(const heapNode& other) const {
-        return distance > other.distance;
-    }
-};
+//     bool operator<(const heapNode& other) const {
+//         return distance < other.distance;
+//     }
+//     bool operator>(const heapNode& other) const {
+//         return distance > other.distance;
+//     }
+// };
 
-void shortestPath(Graph& graph, const char* start, const char* destination);
+// void shortestPath(Graph& graph, const char* start, const char* destination);
 
 
 
