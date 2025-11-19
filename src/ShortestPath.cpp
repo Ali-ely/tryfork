@@ -18,7 +18,7 @@ namespace
 
         bool operator<(const HeapNode &other) const { return distance < other.distance; }
         bool operator>(const HeapNode &other) const { return distance > other.distance; }
-        // bool operator<=(const HeapNode &other) const { return distance <= other.distance; }
+        bool operator<=(const HeapNode &other) const { return distance <= other.distance; }
         bool operator==(const HeapNode &other) const { return vertexIndex == other.vertexIndex; }
     };
 
@@ -62,7 +62,7 @@ bool ShortestPath::compute(Graph &graph, const char *start, const char *destinat
         return false;
 
     VertexNode **vertices = new VertexNode *[numNodes];
-    // int *indexStorage = new int[numNodes];
+    int *indexStorage = new int[numNodes];
     HashTable indexMap(numNodes * 2 + 1);
 
     VertexNode *curr = graph.getHead();
@@ -70,10 +70,8 @@ bool ShortestPath::compute(Graph &graph, const char *start, const char *destinat
     while (curr && idx < numNodes)
     {
         vertices[idx] = curr;
-        // indexStorage[idx] = idx;
-        // indexMap.insert(curr->name, &indexStorage[idx]);
-        int index = idx;
-        indexMap.insert(curr->name, &index);
+        indexStorage[idx] = idx;
+        indexMap.insert(curr->name, &indexStorage[idx]);
         curr = curr->next;
         idx++;
     }
@@ -83,7 +81,7 @@ bool ShortestPath::compute(Graph &graph, const char *start, const char *destinat
     if (startIndex == -1 || destIndex == -1)
     {
         delete[] vertices;
-        // delete[] indexStorage;
+        delete[] indexStorage;
         return false;
     }
 
@@ -140,7 +138,6 @@ bool ShortestPath::compute(Graph &graph, const char *start, const char *destinat
                         // else
                         // {
                         // heap.insert(HeapNode(v, newDist));
-                        // inHeap[v] = true;
                         // }
                     }
                     else
@@ -175,7 +172,7 @@ bool ShortestPath::compute(Graph &graph, const char *start, const char *destinat
     }
 
     delete[] vertices;
-    // delete[] indexStorage;
+    delete[] indexStorage;
     delete[] distances;
     delete[] visited;
     delete[] inHeap;

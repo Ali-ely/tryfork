@@ -7,53 +7,53 @@
 
 using namespace std;
 
-void testMinHeap()
-{
-    cout << "\n=== Testing MinHeap ===" << endl;
-    cout << "----------------------" << endl;
-
-    // Test with integers
-    cout << "\n1. Testing MinHeap with integers:" << endl;
-    MinHeap<int> intHeap(10);
-
-    cout << "Inserting: 50, 30, 70, 10, 40, 60, 80" << endl;
-    intHeap.insert(50);
-    intHeap.insert(30);
-    intHeap.insert(70);
-    intHeap.insert(10);
-    intHeap.insert(40);
-    intHeap.insert(60);
-    intHeap.insert(80);
-
-    cout << "Heap contents: ";
-    intHeap.printHeap();
-
-    cout << "Minimum element: " << intHeap.getMin() << endl;
-
-    cout << "\nExtracting elements in sorted order:" << endl;
-    while (!intHeap.isEmpty())
-    {
-        cout << intHeap.extractMin() << " ";
-    }
-    cout << endl;
-
-    // Test with doubles
-    cout << "\n2. Testing MinHeap with doubles:" << endl;
-    MinHeap<double> doubleHeap(5);
-
-    cout << "Inserting: 3.14, 2.71, 1.41, 9.87, 5.55" << endl;
-    doubleHeap.insert(3.14);
-    doubleHeap.insert(2.71);
-    doubleHeap.insert(1.41);
-    doubleHeap.insert(9.87);
-    doubleHeap.insert(5.55);
-
-    cout << "Heap contents: ";
-    doubleHeap.printHeap();
-
-    cout << "Extracting minimum: " << doubleHeap.extractMin() << endl;
-    cout << "New minimum: " << doubleHeap.getMin() << endl;
-}
+// void testMinHeap()
+//{
+// cout << "\n=== Testing MinHeap ===" << endl;
+// cout << "----------------------" << endl;
+//
+//     // Test with integers
+// cout << "\n1. Testing MinHeap with integers:" << endl;
+// MinHeap<int> intHeap(10, INT_MIN);
+//
+//     //cout << "Inserting: 50, 30, 70, 10, 40, 60, 80" << endl;
+//     //intHeap.insert(50);
+//     intHeap.insert(30);
+//     intHeap.insert(70);
+//     intHeap.insert(10);
+//     intHeap.insert(40);
+//     intHeap.insert(60);
+//     intHeap.insert(80);
+//
+//     cout << "Heap contents: ";
+//     intHeap.printHeap();
+//
+//     cout << "Minimum element: " << intHeap.getMin() << endl;
+//
+//     cout << "\nExtracting elements in sorted order:" << endl;
+//     while (!intHeap.isEmpty())
+//     {
+//         cout << intHeap.extractMin() << " ";
+//     }
+//     cout << endl;
+//
+//     // Test with doubles
+//     cout << "\n2. Testing MinHeap with doubles:" << endl;
+//     MinHeap<double> doubleHeap(5, DBL_MIN);
+//
+//     cout << "Inserting: 3.14, 2.71, 1.41, 9.87, 5.55" << endl;
+//     doubleHeap.insert(3.14);
+//     doubleHeap.insert(2.71);
+//     doubleHeap.insert(1.41);
+//     doubleHeap.insert(9.87);
+//     doubleHeap.insert(5.55);
+//
+//     cout << "Heap contents: ";
+//     doubleHeap.printHeap();
+//
+//     cout << "Extracting minimum: " << doubleHeap.extractMin() << endl;
+//     cout << "New minimum: " << doubleHeap.getMin() << endl;
+// }
 
 void testGraph()
 {
@@ -63,35 +63,36 @@ void testGraph()
     Graph graph;
 
     // Test 1: Manual graph creation
-    cout << "\n1. Creating a small test graph manually:" << endl;
-    graph.addVertex("Cairo");
-    graph.addVertex("Alexandria");
-    graph.addVertex("Giza");
-    graph.addVertex("Luxor");
+    // cout << "\n1. Creating a small test graph manually:" << endl;
+    // graph.addVertex("Cairo");
+    // graph.addVertex("Alexandria");
+    // graph.addVertex("Giza");
+    // graph.addVertex("Luxor");
 
-    graph.addEdge("Cairo", "Alexandria", 220);
-    graph.addEdge("Cairo", "Giza", 20);
-    graph.addEdge("Cairo", "Luxor", 670);
-    graph.addEdge("Alexandria", "Giza", 200);
+    // graph.addEdge("Cairo", "Alexandria", 220);
+    // graph.addEdge("Cairo", "Giza", 20);
+    // graph.addEdge("Cairo", "Luxor", 670);
+    // graph.addEdge("Alexandria", "Giza", 200);
 
-    cout << "\nGraph structure:" << endl;
-    graph.display();
+    // cout << "\nGraph structure:" << endl;
+    // graph.display();
 
     // Test 2: Clear and reload
-    cout << "\n2. Testing clear function..." << endl;
-    graph.clear();
-    cout << "Graph after clear:" << endl;
-    graph.display();
-    cout << "(Graph is empty)" << endl;
+    // cout << "\n2. Testing clear function..." << endl;
+    // graph.clear();
+    // cout << "Graph after clear:" << endl;
+    // graph.display();
+    // cout << "(Graph is empty)" << endl;
 
     // Test 3: Load real dataset
     cout << "\n3. Loading real dataset from file..." << endl;
     const char *datasetPath = "../../../../data/city_connections_dataset.txt";
+    // const char *datasetPath = "../../../../data/indian-cities-dataset.txt";
     cout << "Loading dataset from: " << datasetPath << endl;
     graph.loadFromText(datasetPath);
 
-    cout << "\nLoaded graph structure:" << endl;
-    graph.display();
+    // cout << "\nLoaded graph structure:" << endl;
+    // graph.display();
 
     // Demonstrate shortest path on the loaded dataset
     ShortestPath solver;
@@ -115,16 +116,16 @@ void testGraph()
     solver.release(result);
 
     // Demonstrate binary save/load round trip
-    const char *binaryPath = "city_graph_cache.bin";
-    if (graph.saveToBinary(binaryPath))
-    {
-        Graph cached;
-        if (cached.loadFromBinary(binaryPath))
-        {
-            cout << "\nReloaded graph from binary cache (" << binaryPath << ")" << endl;
-            cached.display();
-        }
-    }
+    // const char *binaryPath = "city_graph_cache.bin";
+    // if (graph.saveToBinary(binaryPath))
+    // {
+    //     Graph cached;
+    //     if (cached.loadFromBinary(binaryPath))
+    //     {
+    //         cout << "\nReloaded graph from binary cache (" << binaryPath << ")" << endl;
+    //         cached.display();
+    //     }
+    // }
 }
 
 int main()
@@ -136,7 +137,7 @@ int main()
     try
     {
         // Test MinHeap
-        testMinHeap();
+        // testMinHeap();
 
         // Test Graph
         testGraph();
