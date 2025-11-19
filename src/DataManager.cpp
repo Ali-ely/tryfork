@@ -11,79 +11,79 @@
 namespace
 {
 #pragma pack(push, 1)
-struct BinaryHeader
-{
-    char magic[8];
-    uint32_t version;
-    uint32_t vertexCount;
-    uint32_t edgeCount;
-};
+    struct BinaryHeader
+    {
+        char magic[8];
+        uint32_t version;
+        uint32_t vertexCount;
+        uint32_t edgeCount;
+    };
 
-struct BinaryEdge
-{
-    char from[64];
-    char to[64];
-    int weight;
-};
+    struct BinaryEdge
+    {
+        char from[64];
+        char to[64];
+        int weight;
+    };
 #pragma pack(pop)
 
-constexpr char MAGIC_VALUE[8] = {'P', 'V', 'G', 'R', 'A', 'P', 'H', '\0'};
-constexpr uint32_t BINARY_VERSION = 1;
+    constexpr char MAGIC_VALUE[8] = {'P', 'V', 'G', 'R', 'A', 'P', 'H', '\0'};
+    constexpr uint32_t BINARY_VERSION = 1;
 
-void trimInPlace(std::string &value)
-{
-    size_t start = 0;
-    while (start < value.size() && std::isspace(static_cast<unsigned char>(value[start])))
-        ++start;
-
-    size_t end = value.size();
-    while (end > start && std::isspace(static_cast<unsigned char>(value[end - 1])))
-        --end;
-
-    value = value.substr(start, end - start);
-}
-
-bool shouldEmitEdge(const char *from, const char *to)
-{
-    return std::strcmp(from, to) < 0;
-}
-
-uint32_t countVertices(const Graph &graph)
-{
-    uint32_t count = 0;
-    VertexNode *curr = graph.getHead();
-    while (curr)
+    void trimInPlace(std::string &value)
     {
-        ++count;
-        curr = curr->next;
+        size_t start = 0;
+        while (start < value.size() && std::isspace(static_cast<unsigned char>(value[start])))
+            ++start;
+
+        size_t end = value.size();
+        while (end > start && std::isspace(static_cast<unsigned char>(value[end - 1])))
+            --end;
+
+        value = value.substr(start, end - start);
     }
-    return count;
-}
 
-uint32_t countUniqueEdges(const Graph &graph)
-{
-    uint32_t count = 0;
-    VertexNode *vertex = graph.getHead();
-    while (vertex)
+    bool shouldEmitEdge(const char *from, const char *to)
     {
-        EdgeNode *edge = vertex->adjHead;
-        while (edge)
+        return std::strcmp(from, to) < 0;
+    }
+
+    uint32_t countVertices(const Graph &graph)
+    {
+        uint32_t count = 0;
+        VertexNode *curr = graph.getHead();
+        while (curr)
         {
-            if (shouldEmitEdge(vertex->name, edge->to))
-                ++count;
-            edge = edge->next;
+            ++count;
+            curr = curr->next;
         }
-        vertex = vertex->next;
+        return count;
     }
-    return count;
-}
 
-void writeEdge(BinaryEdge &record, const char *from, const char *to, int weight)
-{
-    std::snprintf(record.from, sizeof(record.from), "%s", from);
-    std::snprintf(record.to, sizeof(record.to), "%s", to);
-    record.weight = weight;
-}
+    uint32_t countUniqueEdges(const Graph &graph)
+    {
+        uint32_t count = 0;
+        VertexNode *vertex = graph.getHead();
+        while (vertex)
+        {
+            EdgeNode *edge = vertex->adjHead;
+            while (edge)
+            {
+                if (shouldEmitEdge(vertex->name, edge->to))
+                    ++count;
+                edge = edge->next;
+            }
+            vertex = vertex->next;
+        }
+        return count;
+    }
+
+    void writeEdge(BinaryEdge &record, const char *from, const char *to, int weight)
+    {
+        std::snprintf(record.from, sizeof(record.from), "%s", from);
+        std::snprintf(record.to, sizeof(record.to), "%s", to);
+        record.weight = weight;
+    }
 }
 
 bool DataManager::loadText(const char *filename, Graph &graph)
@@ -228,5 +228,27 @@ bool DataManager::saveBinary(const char *filename, const Graph &graph)
         vertex = vertex->next;
     }
 
+    return true;
+}
+
+bool DataManager::saveResultAsJSON(const char *filename, const PathResult &result)
+{
+    std::ofstream output(filename);
+    if (!output.is_open())
+        return false;
+    output << "{\n";
+    output << "  \"totalDistance\": " << result.totalDistance << ",\n";
+    output << "  \"reachable\": " << (result.reachable ? "true" : "false") << ",\n";
+    output << "  \"nodeCount\": " << result.nodeCount << ",\n";
+    output << "  \"nodes\": [\n";
+    for (int i = 0; i < result.nodeCount; ++i)
+    {
+        output << "    \"" << result.nodes[i] << "\"";
+        if (i + 1 < result.nodeCount)
+            output << ",";
+        output << "\n";
+    }
+    output << "  ]\n";
+    output << "}\n";
     return true;
 }

@@ -2,6 +2,7 @@
 #include "MinHeap.h"
 #include "MinHeap.tpp"
 #include "ShortestPath.h"
+#include "DataManager.h"
 #include <iostream>
 #include <string>
 
@@ -97,9 +98,13 @@ void testGraph()
     // Demonstrate shortest path on the loaded dataset
     ShortestPath solver;
     PathResult result;
-    if (solver.compute(graph, "New York", "San Diego", result))
+    string fromCity = "New York";
+    string toCity = "San Diego";
+    if (solver.compute(graph, fromCity.c_str(), toCity.c_str(), result))
     {
-        cout << "\nShortest path from New York to San Diego:" << endl;
+        string filename = fromCity + "_to_" + toCity + ".json";
+        DataManager::saveResultAsJSON(filename.c_str(), result);
+        cout << "\nShortest path from " << fromCity << " to " << toCity << ":" << endl;
         for (int i = 0; i < result.nodeCount; ++i)
         {
             cout << result.nodes[i];
@@ -110,7 +115,7 @@ void testGraph()
     }
     else
     {
-        cout << "\nCould not compute a path between New York and San Diego." << endl;
+        cout << "\nCould not compute a path between " << fromCity << " and " << toCity << "." << endl;
     }
 
     solver.release(result);
