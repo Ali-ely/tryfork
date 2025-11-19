@@ -4,14 +4,14 @@
 
 TEST(MinHeapTest, CreateEmptyHeap)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     EXPECT_TRUE(heap.isEmpty());
     EXPECT_FALSE(heap.isFull());
 }
 
 TEST(MinHeapTest, InsertElement)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     heap.insert(5);
     EXPECT_FALSE(heap.isEmpty());
     EXPECT_EQ(heap.getMin(), 5);
@@ -19,7 +19,7 @@ TEST(MinHeapTest, InsertElement)
 
 TEST(MinHeapTest, InsertMultiple)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     heap.insert(5);
     heap.insert(3);
     heap.insert(7);
@@ -29,7 +29,7 @@ TEST(MinHeapTest, InsertMultiple)
 
 TEST(MinHeapTest, ExtractMin)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     heap.insert(5);
     heap.insert(3);
     heap.insert(7);
@@ -41,7 +41,7 @@ TEST(MinHeapTest, ExtractMin)
 
 TEST(MinHeapTest, HeapProperty)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     heap.insert(5);
     heap.insert(4);
     heap.insert(3);
@@ -55,7 +55,7 @@ TEST(MinHeapTest, HeapProperty)
 
 TEST(MinHeapTest, HeapFull)
 {
-    MinHeap<int> heap(3);
+    MinHeap<int> heap(3, INT_MIN);
     heap.insert(1);
     heap.insert(2);
     heap.insert(3);
@@ -65,7 +65,7 @@ TEST(MinHeapTest, HeapFull)
 
 TEST(MinHeapTest, DecreaseKeyLowersValue)
 {
-    MinHeap<int> heap(10);
+    MinHeap<int> heap(10, INT_MIN);
     heap.insert(50);
     heap.insert(40);
     heap.insert(30);
