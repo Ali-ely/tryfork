@@ -1,9 +1,8 @@
 #include "graph.h"
+#include "DataManager.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
 
-Graph::Graph() : head(nullptr)
+Graph::Graph() : head(nullptr), vertexLookup(211)
 {
 }
 
@@ -35,21 +34,12 @@ void Graph::clear()
     }
 
     head = nullptr;
+    vertexLookup.clear();
 }
 
 VertexNode *Graph::findVertexNode(const char *name) const
 {
-    VertexNode *temp = head;
-
-    // loop the Vertex list
-    while (temp)
-    {
-        if (strcmp(temp->name, name) == 0)
-            return temp;
-        temp = temp->next;
-    }
-
-    return nullptr;
+    return static_cast<VertexNode *>(vertexLookup.find(name));
 }
 
 void Graph::addVertex(const char *name)
@@ -58,29 +48,26 @@ void Graph::addVertex(const char *name)
         return;
 
     VertexNode *newVertex = new VertexNode(name);
-
-    if (!head)
-    {
-        head = newVertex;
-    }
-    else
-    {
-        VertexNode *temp = head;
-        while (temp->next)
-            temp = temp->next;
-
-        temp->next = newVertex;
-    }
+    newVertex->next = head;
+    head = newVertex;
+    vertexLookup.insert(name, newVertex);
 }
 
 void Graph::addEdge(const char *from, const char *to, int w)
 {
-    // check both cities exist or create if they don't
-    addVertex(from);
-    addVertex(to);
-
     VertexNode *fromVertex = findVertexNode(from);
+    if (!fromVertex)
+    {
+        addVertex(from);
+        fromVertex = findVertexNode(from);
+    }
+
     VertexNode *toVertex = findVertexNode(to);
+    if (!toVertex)
+    {
+        addVertex(to);
+        toVertex = findVertexNode(to);
+    }
 
     EdgeNode *newEdge1 = new EdgeNode(to, w);
 
@@ -135,40 +122,27 @@ void Graph::display() const
 
 void Graph::readDataset(const char *filename)
 {
-    std::ifstream file(filename);
-    if (!file.is_open())
-    {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
-        return;
-    }
+    DataManager::loadText(filename, *this);
+}
 
-    std::string line;
-    bool firstLine = true;
+bool Graph::loadFromText(const char *filename)
+{
+    return DataManager::loadText(filename, *this);
+}
 
-    while (std::getline(file, line))
-    {
-        if (line.empty())
-            continue; // skip blank lines
-        if (firstLine)
-        { // skip header line
-            firstLine = false;
-            continue;
-        }
+bool Graph::loadFromBinary(const char *filename)
+{
+    return DataManager::loadBinary(filename, *this);
+}
 
-        std::stringstream ss(line);
-        std::string vertex1, vertex2;
-        int weight;
+bool Graph::saveToText(const char *filename) const
+{
+    return DataManager::saveText(filename, *this);
+}
 
-        ss >> vertex1 >> vertex2 >> weight;
-
-        if (vertex1.empty() || vertex2.empty() || ss.fail())
-            continue;
-
-        addEdge(vertex1.c_str(), vertex2.c_str(), weight);
-    }
-
-    file.close();
-    std::cout << "Dataset successfully readed from: " << filename << std::endl;
+bool Graph::saveToBinary(const char *filename) const
+{
+    return DataManager::saveBinary(filename, *this);
 }
 
 int Graph::getNumOfNodes() const

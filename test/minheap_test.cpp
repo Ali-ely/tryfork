@@ -62,3 +62,18 @@ TEST(MinHeapTest, HeapFull)
 
     EXPECT_TRUE(heap.isFull());
 }
+
+TEST(MinHeapTest, DecreaseKeyLowersValue)
+{
+    MinHeap<int> heap(10);
+    heap.insert(50);
+    heap.insert(40);
+    heap.insert(30);
+
+    int index = heap.findIndex(40);
+    ASSERT_NE(index, -1);
+
+    heap.decreaseKey(index, 5);
+
+    EXPECT_EQ(heap.getMin(), 5);
+}

@@ -1,6 +1,7 @@
 #include "graph.h"
 #include "MinHeap.h"
 #include "MinHeap.tpp"
+#include "ShortestPath.h"
 #include <iostream>
 #include <string>
 
@@ -85,10 +86,45 @@ void testGraph()
 
     // Test 3: Load real dataset
     cout << "\n3. Loading real dataset from file..." << endl;
-    graph.readDataset("../../../../data/city_connections_dataset.txt");
+    const char *datasetPath = "../../../../data/city_connections_dataset.txt";
+    cout << "Loading dataset from: " << datasetPath << endl;
+    graph.loadFromText(datasetPath);
 
     cout << "\nLoaded graph structure:" << endl;
     graph.display();
+
+    // Demonstrate shortest path on the loaded dataset
+    ShortestPath solver;
+    PathResult result;
+    if (solver.compute(graph, "New York", "San Diego", result))
+    {
+        cout << "\nShortest path from New York to San Diego:" << endl;
+        for (int i = 0; i < result.nodeCount; ++i)
+        {
+            cout << result.nodes[i];
+            if (i + 1 < result.nodeCount)
+                cout << " -> ";
+        }
+        cout << "\nTotal distance: " << result.totalDistance << " km" << endl;
+    }
+    else
+    {
+        cout << "\nCould not compute a path between New York and San Diego." << endl;
+    }
+
+    solver.release(result);
+
+    // Demonstrate binary save/load round trip
+    const char *binaryPath = "city_graph_cache.bin";
+    if (graph.saveToBinary(binaryPath))
+    {
+        Graph cached;
+        if (cached.loadFromBinary(binaryPath))
+        {
+            cout << "\nReloaded graph from binary cache (" << binaryPath << ")" << endl;
+            cached.display();
+        }
+    }
 }
 
 int main()

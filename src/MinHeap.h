@@ -23,7 +23,7 @@ private:
     void upheap(int i);
     void downheap(int i);
 
-	void resize();
+    void resize();
 
 public:
     explicit MinHeap(int cap, T min);
@@ -35,7 +35,8 @@ public:
     void insert(const T &key);
     T getMin();
     T extractMin();
-    void decreaseKey(int, const T&);
+    void decreaseKey(int, const T &);
+    int findIndex(const T &key) const;
     void printHeap();
 };
 

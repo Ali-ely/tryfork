@@ -35,11 +35,13 @@ void MinHeap<T>::downheap(int i)
 
     while (j <= N)
     {
-        int r = j+1;
+        int r = j + 1;
 
-        if (r <= N && arr[j] > arr[r])   j = r;
+        if (r <= N && arr[j] > arr[r])
+            j = r;
 
-        if (temp <= arr[j]) break;
+        if (temp <= arr[j])
+            break;
 
         arr[i] = std::move(arr[j]);
         i = j;
@@ -52,7 +54,7 @@ template <typename T>
 void MinHeap<T>::resize()
 {
     int newCapacity = capacity * 2;
-    T* newArr = new T[newCapacity + 1];
+    T *newArr = new T[newCapacity + 1];
     for (int i = 0; i <= N; i++)
         newArr[i] = std::move(arr[i]);
     delete[] arr;
@@ -66,7 +68,7 @@ MinHeap<T>::MinHeap(int cap, T min)
     capacity = cap;
     N = 0;
     minimum = min;
-    arr = new T[capacity+1];
+    arr = new T[capacity + 1];
     arr[0] = minimum;
 }
 
@@ -85,7 +87,8 @@ bool MinHeap<T>::isFull() const { return N == capacity; }
 template <typename T>
 void MinHeap<T>::insert(const T &key)
 {
-    if (isFull()) resize();
+    if (isFull())
+        resize();
     arr[++N] = key;
     upheap(last());
 }
@@ -99,7 +102,7 @@ T MinHeap<T>::getMin()
 }
 
 template <typename T>
-void MinHeap<T>::decreaseKey(int i, const T& newValue)
+void MinHeap<T>::decreaseKey(int i, const T &newValue)
 {
     // We can only decrease a key, not increase it
     if (newValue > arr[i])
@@ -110,7 +113,6 @@ void MinHeap<T>::decreaseKey(int i, const T& newValue)
     // Restore heap property by upheaping
     upheap(i);
 }
-
 
 template <typename T>
 T MinHeap<T>::extractMin()
@@ -127,6 +129,17 @@ T MinHeap<T>::extractMin()
     N--;
     downheap(1);
     return root;
+}
+
+template <typename T>
+int MinHeap<T>::findIndex(const T &key) const
+{
+    for (int i = 1; i <= N; ++i)
+    {
+        if (arr[i] == key)
+            return i;
+    }
+    return -1;
 }
 
 template <typename T>

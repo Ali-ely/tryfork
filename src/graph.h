@@ -4,16 +4,18 @@
 #include <cstring>
 #include <cstdio>
 
+#include "HashTable.h"
+
 struct EdgeNode
 {
     char to[64];
-    int weight;
+    float weight;
     EdgeNode *next;
 
     EdgeNode(const char *t, int w, EdgeNode *n = nullptr)
     {
-        //this way is supposed to be better in copying the string safely and place \0 in the correct location
-        snprintf(to, sizeof(to), "%s", t);  // %s is called format string (copy the string argument)
+        // this way is supposed to be better in copying the string safely and place \0 in the correct location
+        snprintf(to, sizeof(to), "%s", t); // %s is called format string (copy the string argument)
         weight = w;
         next = n;
     }
@@ -28,7 +30,7 @@ struct VertexNode
 
     VertexNode(const char *n)
     {
-        snprintf (name, sizeof(name), "%s", n);
+        snprintf(name, sizeof(name), "%s", n);
         adjHead = nullptr;
         next = nullptr;
     }
@@ -38,6 +40,7 @@ class Graph
 {
 private:
     VertexNode *head;
+    HashTable vertexLookup;
 
     // function to find a vertex node by name
     VertexNode *findVertexNode(const char *name) const;
@@ -46,12 +49,16 @@ public:
     Graph();
     ~Graph();
 
-    VertexNode* getHead() const { return head; }
+    VertexNode *getHead() const { return head; }
     void clear();                                          // Delete all vertices and edges
     void addVertex(const char *name);                      // Add a new vertex if it doesn’t exist
     void addEdge(const char *from, const char *to, int w); // Add connection between two vertices
     void display() const;
     void readDataset(const char *filename);
+    bool loadFromText(const char *filename);
+    bool loadFromBinary(const char *filename);
+    bool saveToText(const char *filename) const;
+    bool saveToBinary(const char *filename) const;
     int getNumOfNodes() const;
     int getNeighborCount(const char *vertexName) const;
 };

@@ -13,6 +13,8 @@ enable_testing()
 add_executable(graph_tests
   graph_test.cpp
   minheap_test.cpp
+  datamanager_test.cpp
+  shortestpath_test.cpp
 )
 
 target_link_libraries(graph_tests
