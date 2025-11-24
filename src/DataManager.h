@@ -12,6 +12,7 @@ public:
     static bool saveText(const char *filename, const Graph &graph);
     static bool saveBinary(const char *filename, const Graph &graph);
     static bool saveResultAsJSON(const char *filename, const PathResult &result);
+    static bool loadJSON(const char *filename, Graph &graph);
 };
 
 #endif

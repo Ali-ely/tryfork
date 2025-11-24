@@ -87,7 +87,7 @@ void testGraph()
 
     // Test 3: Load real dataset
     cout << "\n3. Loading real dataset from file..." << endl;
-    const char *datasetPath = "../../../../data/city_connections_dataset.txt";
+    const char *datasetPath = "../../data/city_connections_dataset.txt";
     // const char *datasetPath = "../../../../data/indian-cities-dataset.txt";
     cout << "Loading dataset from: " << datasetPath << endl;
     graph.loadFromText(datasetPath);
@@ -133,6 +133,51 @@ void testGraph()
     // }
 }
 
+void testCustomGraph()
+{
+    cout << "\n=== Testing Custom Graph (AUC) ===" << endl;
+    cout << "----------------------------------" << endl;
+
+    Graph graph;
+    const char *jsonPath = "../../auc_graph_with_names.json";
+    cout << "Loading JSON from: " << jsonPath << endl;
+
+    if (!DataManager::loadJSON(jsonPath, graph))
+    {
+        cerr << "Failed to load JSON file." << endl;
+        return;
+    }
+
+    cout << "Graph loaded." << endl;
+    cout << "Nodes: " << graph.getNumOfNodes() << endl;
+
+    // Test Pathfinding
+    ShortestPath solver;
+    PathResult result;
+    const char *startNode = "Visitor Parking";
+    const char *endNode = "Gate 4";
+
+    cout << "\nFinding path from '" << startNode << "' to '" << endNode << "'..." << endl;
+
+    if (solver.compute(graph, startNode, endNode, result))
+    {
+        cout << "Path found!" << endl;
+        cout << "Total Distance: " << result.totalDistance << " m" << endl;
+        cout << "Path: ";
+        for (int i = 0; i < result.nodeCount; ++i)
+        {
+            cout << result.nodes[i];
+            if (i + 1 < result.nodeCount) cout << " -> ";
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "No path found." << endl;
+    }
+    solver.release(result);
+}
+
 int main()
 {
     cout << "========================================" << endl;
@@ -146,6 +191,9 @@ int main()
 
         // Test Graph
         testGraph();
+
+        //Tets Custom Graph
+        testCustomGraph();
 
         cout << "\n========================================" << endl;
         cout << "   All tests completed successfully!" << endl;

@@ -252,3 +252,117 @@ bool DataManager::saveResultAsJSON(const char *filename, const PathResult &resul
     output << "}\n";
     return true;
 }
+
+bool DataManager::loadJSON(const char *filename, Graph &graph)
+{
+    FILE *fp = fopen(filename, "r");
+    if (!fp)
+    {
+        return false;
+    }
+
+    graph.clear();
+
+    // Simple manual parsing
+    char line[1024];
+    char currentId[64] = "";
+    char currentName[128] = "";
+    bool inNodes = false;
+    bool inEdges = false;
+
+    // Maps for ID -> Name
+    HashTable idToNameMap(2000);
+
+    // Pass 1: Read Nodes and build ID->Name map
+    while (fgets(line, sizeof(line), fp))
+    {
+        std::string s(line);
+        if (s.find("\"nodes\":") != std::string::npos) { inNodes = true; inEdges = false; continue; }
+        if (s.find("\"edges\":") != std::string::npos) { inNodes = false; inEdges = true; continue; }
+
+        if (inNodes)
+        {
+            if (s.find("\"id\":") != std::string::npos)
+            {
+                sscanf(line, "      \"id\": \"%[^\"]\"", currentId);
+                // Default name is ID
+                std::strcpy(currentName, currentId);
+            }
+            else if (s.find("\"name\":") != std::string::npos)
+            {
+                sscanf(line, "      \"name\": \"%[^\"]\"", currentName);
+            }
+            else if (s.find("},") != std::string::npos || (s.find("}") != std::string::npos && !inEdges))
+            {
+                // End of node object
+                if (std::strlen(currentId) > 0)
+                {
+                    // Store in map. We need to allocate memory for the name because HashTable stores void*
+                    char *nameCopy = new char[std::strlen(currentName) + 1];
+                    std::strcpy(nameCopy, currentName);
+                    idToNameMap.insert(currentId, nameCopy);
+
+                    // Add to graph
+                    graph.addVertex(currentName);
+
+                    // Reset
+                    currentId[0] = '\0';
+                    currentName[0] = '\0';
+                }
+            }
+        }
+    }
+
+    // Pass 2: Read Edges (Rewind file)
+    fseek(fp, 0, SEEK_SET);
+    inNodes = false;
+    inEdges = false;
+    char fromId[64] = "";
+    char toId[64] = "";
+    double weight = 0.0;
+
+    while (fgets(line, sizeof(line), fp))
+    {
+        std::string s(line);
+        if (s.find("\"nodes\":") != std::string::npos) { inNodes = true; inEdges = false; continue; }
+        if (s.find("\"edges\":") != std::string::npos) { inNodes = false; inEdges = true; continue; }
+
+        if (inEdges)
+        {
+            if (s.find("\"from\":") != std::string::npos)
+            {
+                sscanf(line, "      \"from\": \"%[^\"]\"", fromId);
+            }
+            else if (s.find("\"to\":") != std::string::npos)
+            {
+                sscanf(line, "      \"to\": \"%[^\"]\"", toId);
+            }
+            else if (s.find("\"weight\":") != std::string::npos)
+            {
+                sscanf(line, "      \"weight\": %lf", &weight);
+            }
+            else if (s.find("},") != std::string::npos || (s.find("}") != std::string::npos && inEdges))
+            {
+                // End of edge object
+                if (std::strlen(fromId) > 0 && std::strlen(toId) > 0)
+                {
+                    // Resolve names
+                    char *fromName = (char*)idToNameMap.find(fromId);
+                    char *toName = (char*)idToNameMap.find(toId);
+
+                    if (fromName && toName)
+                    {
+                        graph.addEdge(fromName, toName, (int)weight);
+                    }
+
+                    // Reset
+                    fromId[0] = '\0';
+                    toId[0] = '\0';
+                    weight = 0.0;
+                }
+            }
+        }
+    }
+    fclose(fp);
+    return true;
+}
