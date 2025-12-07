@@ -24,12 +24,13 @@ PathVista is designed to manage and analyze city connection networks. It provide
 - **MinHeap data structure** for efficient priority queue operations
 - Support for loading real-world city connection datasets
 - Comprehensive test suite using Google Test
+- **Interactive CLI** that loads the AUC campus graph (from `auc_graph_with_names.json`) and offers step-by-step navigation, shortest paths, and nearest amenity lookup
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 PathVista/
 ├── src/
 │   ├── graph.h              # Graph class declaration
@@ -44,9 +45,25 @@ PathVista/
 │   └── CMakeLists.txt       # CMake build configuration for tests
 ├── data/
 │   └── city_connections_dataset.txt  # Real-world city connection data
+├── auc_graph_with_names.json         # Detailed AUC campus graph (nodes, edges, metadata)
 ├── CMakeLists.txt           # Root CMake configuration
 └── README.md                # This file
 ```
+
+---
+
+## 🗺️ Datasets
+
+| File | Format | Used By | Notes |
+|------|--------|---------|-------|
+| `data/city_connections_dataset.txt` | tab-separated text | Graph + unit tests | Legacy dataset with worldwide city distances; useful for regression tests and algorithm verification. |
+| `auc_graph_with_names.json` | JSON (nodes, edges, metadata) | Campus Navigator CLI | Contains AUC campus topology, lat/lon, and human-friendly labels. Required for the interactive CLI. |
+
+### Dataset auto-discovery
+
+- The CLI looks for `auc_graph_with_names.json` in the current working directory, repo root, sibling `data/` folders, and their parents.
+- To override this search, pass the absolute or relative path as the first CLI argument: `PathVista.exe path/to/auc_graph_with_names.json`.
+- When adding custom datasets, keep the schema consistent (nodes with `id`, optional `name`, edges with `from`, `to`, `weight`).
 
 ---
 
@@ -56,7 +73,7 @@ PathVista/
 
 The **Graph** class represents an undirected, weighted graph using an **adjacency list** implementation with linked lists.
 
-#### Structure
+#### Graph Structure
 
 - **VertexNode**: Represents a city (vertex)
   - `char name[64]`: City name
@@ -68,7 +85,7 @@ The **Graph** class represents an undirected, weighted graph using an **adjacenc
   - `int weight`: Distance/cost of connection
   - `EdgeNode* next`: Pointer to next edge
 
-#### Public Methods
+#### Graph Public Methods
 
 ##### 1. `Graph()`
 
@@ -138,7 +155,7 @@ g.addEdge("Cairo", "Giza", 20);
 
 **Output Format**:
 
-```
+```text
 Cairo -> Alexandria (220) -> Giza (20)
 Alexandria -> Cairo (220)
 Giza -> Cairo (20)
@@ -168,7 +185,7 @@ Giza -> Cairo (20)
 
 **File Format**:
 
-```
+```text
 City1 City2 Distance
 Cairo Alexandria 220
 Cairo Giza 20
@@ -187,13 +204,13 @@ g.readDataset("data/city_connections_dataset.txt");
 
 The **MinHeap** class is a template-based implementation of a binary min-heap using an array.
 
-#### Structure
+#### MinHeap Structure
 
 - **Template Type `T`**: Can store any comparable type (int, double, float, etc.)
 - **Array-based**: Stored in contiguous memory for cache efficiency
 - **Complete Binary Tree**: Satisfies heap property - parent ≤ children
 
-#### Private Methods
+#### MinHeap Private Methods
 
 ##### Helper Functions
 
@@ -204,7 +221,7 @@ The **MinHeap** class is a template-based implementation of a binary min-heap us
 - `heapifyUp(int i)`: Restores heap property upward → `O(log n)`
 - `heapifyDown(int i)`: Restores heap property downward → `O(log n)`
 
-#### Public Methods
+#### MinHeap Public Methods
 
 ##### 1. `MinHeap(int capacity)`
 
@@ -403,20 +420,20 @@ git clone https://github.com/a7med-yamany/PathVista.git
 cd PathVista
 ```
 
-2. **Create build directory**:
+1. **Create build directory**:
 
 ```bash
 mkdir build
 cd build
 ```
 
-3. **Configure with CMake**:
+1. **Configure with CMake**:
 
 ```bash
 cmake ..
 ```
 
-4. **Build the project**:
+1. **Build the project**:
 
 ```bash
 cmake --build .
@@ -431,28 +448,38 @@ On Windows, executables will be in:
 
 ## 🚀 Running the Project
 
-### Run the Main Program
+### Build the CLI
 
-**Windows**:
-
-```powershell
-.\src\Debug\PathVista.exe
-```
-
-**Linux/Mac**:
+After configuring the build directory (see [Building the Project](#-building-the-project)), compile the main executable:
 
 ```bash
-./src/PathVista
+cd build
+cmake --build . --target PathVista
 ```
 
-### Expected Output
+On Windows the binary usually lives under `build/src/Debug/PathVista.exe`; on Unix-like systems it is `build/src/PathVista`.
 
-The program will:
+### Run the Campus Navigator CLI
 
-1. Test MinHeap operations with integers and doubles
-2. Create a test graph with Egyptian cities
-3. Load the real dataset from `data/city_connections_dataset.txt`
-4. Display all graph structures
+```bash
+# Windows
+build/src/Debug/PathVista.exe [optional/path/to/auc_graph_with_names.json]
+
+# Linux / macOS
+build/src/PathVista [optional/path/to/auc_graph_with_names.json]
+```
+
+- Passing the JSON path is optional. When no argument is supplied, the CLI searches common locations (current directory, repo root, `data/`, and their parents).
+- If you store the dataset elsewhere, provide the absolute/relative path explicitly.
+
+Once launched, the CLI will:
+
+1. Load the campus graph from `auc_graph_with_names.json`.
+2. Prompt for your current location with fuzzy matching + disambiguation when multiple nodes match.
+3. Offer an interactive menu to compute shortest paths, change the current node, or find the nearest food/drink/supermarket/prayer destination using the real graph distances.
+4. Display the computed route, the ordered list of waypoints, and total distance.
+
+> **Tip:** Keep `auc_graph_with_names.json` next to the executable (or in the repo root) so the auto-discovery logic can find it without command-line arguments.
 
 ---
 
